@@ -253,7 +253,7 @@ export default function POSPage() {
                         <p className="text-sm text-gray-700">{medicine.medicine_id}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold text-gray-900">${medicine.unit_price}</p>
+                        <p className="font-semibold text-gray-900">{`PKR ${Number(medicine.unit_price).toFixed(2)}`}</p>
                         <p className="text-sm text-gray-700">Stock: {medicine.stock_quantity}</p>
                       </div>
                     </button>
@@ -318,8 +318,8 @@ export default function POSPage() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-gray-900">${item.total_price.toFixed(2)}</p>
-                        <p className="text-sm text-gray-700">${item.unit_price} × {item.quantity}</p>
+                        <p className="text-lg font-bold text-gray-900">{`PKR ${item.total_price.toFixed(2)}`}</p>
+                        <p className="text-sm text-gray-700">{`PKR ${item.unit_price.toFixed(2)} × ${item.quantity}`}</p>
                         <button
                           onClick={() => removeFromCart(item.medicine_id)}
                           className="mt-2 text-red-600 hover:text-red-800"
@@ -396,7 +396,7 @@ export default function POSPage() {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-700">Subtotal</span>
-                  <span className="font-medium text-gray-900">${subtotal.toFixed(2)}</span>
+                  <span className="font-medium text-gray-900">{`PKR ${subtotal.toFixed(2)}`}</span>
                 </div>
                 
                 <div className="flex justify-between items-center">
@@ -410,19 +410,19 @@ export default function POSPage() {
                       onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
                       className="w-20 px-2 py-1 border border-gray-300 rounded text-sm bg-white text-gray-900"
                     />
-                    <span className="font-medium text-gray-900">${discountAmount.toFixed(2)}</span>
+                    <span className="font-medium text-gray-900">{`PKR ${discountAmount.toFixed(2)}`}</span>
                   </div>
                 </div>
                 
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700">Tax ({TAX_PERCENTAGE}%)</span>
-                  <span className="font-medium text-gray-900">${taxAmount.toFixed(2)}</span>
+                  <span className="font-medium text-gray-900">{`PKR ${taxAmount.toFixed(2)}`}</span>
                 </div>
                 
                 <div className="border-t border-gray-300 pt-3">
                   <div className="flex justify-between text-lg font-bold">
                     <span className="text-gray-900">Grand Total</span>
-                    <span className="text-gray-900">${grandTotal.toFixed(2)}</span>
+                    <span className="text-gray-900">{`PKR ${grandTotal.toFixed(2)}`}</span>
                   </div>
                 </div>
               </div>
@@ -467,7 +467,7 @@ export default function POSPage() {
                 ) : (
                   <>
                     <ShoppingCart className="w-5 h-5" />
-                    <span>Complete Sale (${grandTotal.toFixed(2)})</span>
+                    <span>Complete Sale (PKR {grandTotal.toFixed(2)})</span>
                   </>
                 )}
               </button>
@@ -510,17 +510,17 @@ export default function POSPage() {
                         <tr key={item.medicine_id}>
                           <td>{item.medicine.name}</td>
                           <td className="text-center">{item.quantity}</td>
-                          <td className="text-right">${item.total_price.toFixed(2)}</td>
+                          <td className="text-right">{`PKR ${item.total_price.toFixed(2)}`}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
 
                   <div className="mt-4 text-sm">
-                    <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-                    <div className="flex justify-between"><span>Discount</span><span>${discountAmount.toFixed(2)}</span></div>
-                    <div className="flex justify-between"><span>Tax ({TAX_PERCENTAGE}%)</span><span>${taxAmount.toFixed(2)}</span></div>
-                    <div className="flex justify-between font-bold mt-2"><span>Grand Total</span><span>${grandTotal.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Subtotal</span><span>{`PKR ${subtotal.toFixed(2)}`}</span></div>
+                    <div className="flex justify-between"><span>Discount</span><span>{`PKR ${discountAmount.toFixed(2)}`}</span></div>
+                    <div className="flex justify-between"><span>Tax ({TAX_PERCENTAGE}%)</span><span>{`PKR ${taxAmount.toFixed(2)}`}</span></div>
+                    <div className="flex justify-between font-bold mt-2"><span>Grand Total</span><span>{`PKR ${grandTotal.toFixed(2)}`}</span></div>
                   </div>
                 </div>
               </div>
