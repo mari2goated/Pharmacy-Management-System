@@ -1,3 +1,8 @@
+// TASK FOR COPILOT:
+// Hide revenue, total sales, and average sale stats for cashier users.
+// Admin users should continue to see all stats.
+// Do not change backend logic or API calls.
+
 // app/(dashboard)/dashboard/page.tsx
 'use client';
 
@@ -12,6 +17,7 @@ import {
   Clock,
   ShoppingCart,
 } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
 
 interface DashboardStats {
   sales_today: number | string;
@@ -28,6 +34,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [recentSales, setRecentSales] = useState<any[]>([]);
   const [lowStock, setLowStock] = useState<any[]>([]);
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     fetchDashboardData();
@@ -64,18 +71,21 @@ export default function DashboardPage() {
     return `PKR ${numValue.toFixed(2)}`;
   };
 
+  // Build stat cards and filter admin-only cards when user is not an admin
   const statCards = [
     {
       title: 'Sales Today',
       value: formatCurrency(stats?.sales_today),
       icon: DollarSign,
       color: 'bg-green-500',
+      adminOnly: true,
     },
     {
       title: 'Total Revenue',
       value: formatCurrency(stats?.total_revenue),
       icon: TrendingUp,
       color: 'bg-blue-500',
+      adminOnly: true,
     },
     {
       title: 'Medicines in Stock',
@@ -94,6 +104,7 @@ export default function DashboardPage() {
       value: formatCurrency(stats?.average_sale),
       icon: ShoppingCart,
       color: 'bg-yellow-500',
+      adminOnly: true,
     },
     {
       title: 'Total Customers',
@@ -101,7 +112,7 @@ export default function DashboardPage() {
       icon: Users,
       color: 'bg-indigo-500',
     },
-  ];
+  ].filter((card) => (card.adminOnly ? isAdmin : true));
 
   if (loading) {
     return (
