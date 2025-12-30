@@ -1,3 +1,10 @@
+// TASK FOR COPILOT:
+// Implement receipt printing functionality.
+// Create a printable receipt section using existing POS data.
+// Wire the "Print Receipt" button to window.print().
+// Print only the receipt content using print-specific CSS.
+// Do not change backend or POS logic.
+
 // Create a new file with all fixes or replace your existing pos/page.tsx
 'use client';
 
@@ -473,10 +480,52 @@ export default function POSPage() {
                 <span>Cancel Transaction</span>
               </button>
 
-              <button className="w-full border border-blue-300 text-blue-700 hover:bg-blue-50 font-medium py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center space-x-2">
+              <button
+                onClick={() => window.print()}
+                className="w-full border border-blue-300 text-blue-700 hover:bg-blue-50 font-medium py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center space-x-2"
+              >
                 <Printer className="w-5 h-5" />
                 <span>Print Receipt</span>
               </button>
+
+              {/* Printable receipt - hidden on screen, visible only during print */}
+              <div className="printable" aria-hidden="true">
+                <div className="max-w-md mx-auto p-6 bg-white text-black">
+                  <h2 className="text-center text-lg font-bold mb-2">Pharmacy Receipt</h2>
+                  {receiptNumber && (
+                    <p className="text-sm text-gray-700 text-center mb-2">Receipt: <strong>{receiptNumber}</strong></p>
+                  )}
+                  <p className="text-xs text-gray-700 text-center mb-4">{new Date().toLocaleString()}</p>
+
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr>
+                        <th className="text-left">Item</th>
+                        <th className="text-center">Qty</th>
+                        <th className="text-right">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {cart.map((item) => (
+                        <tr key={item.medicine_id}>
+                          <td>{item.medicine.name}</td>
+                          <td className="text-center">{item.quantity}</td>
+                          <td className="text-right">${item.total_price.toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  <div className="mt-4 text-sm">
+                    <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Discount</span><span>${discountAmount.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Tax ({TAX_PERCENTAGE}%)</span><span>${taxAmount.toFixed(2)}</span></div>
+                    <div className="flex justify-between font-bold mt-2"><span>Grand Total</span><span>${grandTotal.toFixed(2)}</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <style>{`@media screen { .printable { display: none; } } @media print { body * { visibility: hidden; } .printable, .printable * { visibility: visible; } .printable { position: absolute; left: 0; top: 0; width: 100%; } }`}</style>
             </div>
           </div>
         </div>
