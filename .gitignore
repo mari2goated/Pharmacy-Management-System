@@ -1,0 +1,22 @@
+# Node
+node_modules/
+
+# Python
+__pycache__/
+venv/
+.env
+
+# Flask / SQLite
+*.db
+instance/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Build folders
+dist/
+build/
+
+# VS Code
+.vscode/
